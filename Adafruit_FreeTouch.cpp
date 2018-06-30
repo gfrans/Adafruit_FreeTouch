@@ -27,7 +27,7 @@
 
 #include "adafruit_ptc.h"
 
-#if !defined(__SAMD21G18A__) and !defined(__SAMD11D14AM__)
+#if !defined(__SAMD21G18A__) && !defined(__SAMD11D14AM__) && !defined(__SAMD21E18A__) && !defined(__SAMD21E17A__)
 #error "Adafruit FreeTouch does not work on your MCU - consider using QTouch"
 #endif
 
@@ -50,7 +50,7 @@ bool Adafruit_FreeTouch::begin(void) {
         return false;
     }
 
-#ifdef __SAMD21G18A__ 
+#if defined(__SAMD21G18A__) || defined(__SAMD21E18A__) || defined(__SAMD21E17A__)
     /* Setup and enable generic clock source for PTC module.
        struct system_gclk_chan_config gclk_chan_conf;
        system_gclk_chan_get_config_defaults(&gclk_chan_conf);
@@ -225,6 +225,19 @@ uint16_t Adafruit_FreeTouch::measure(void) {
 uint16_t Adafruit_FreeTouch::measureRaw(void) {
     adafruit_ptc_start_conversion(PTC, &config);
 
+    while (!adafruit_ptc_is_conversion_finished(PTC)) {
+        yield();
+    }
+
+    return adafruit_ptc_get_conversion_result(PTC);
+}
+
+
+void Adafruit_FreeTouch::startMeasure(void) {
+    adafruit_ptc_start_conversion(PTC, &config);
+}
+
+uint16_t Adafruit_FreeTouch::getMeasure(void) {
     while (!adafruit_ptc_is_conversion_finished(PTC)) {
         yield();
     }

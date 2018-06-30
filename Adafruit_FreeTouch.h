@@ -11,6 +11,8 @@ class Adafruit_FreeTouch {
 
   uint16_t measure(void);
   uint16_t measureRaw(void);
+  void     startMeasure(void);
+  uint16_t getMeasure(void);
 
  private:
   void ptcInitSettings(void);

@@ -28,7 +28,7 @@
 #ifndef ADAFRUIT_FREETOUCH_PTC_COMPONENT_SAMD21_H
 #define ADAFRUIT_FREETOUCH_PTC_COMPONENT_SAMD21_H
 
-#ifdef __SAMD21G18A__
+#if defined(__SAMD21G18A__) || defined(__SAMD21E18A__) || defined(__SAMD21E17A__)
 
 #define     __O     volatile             /*!< Defines 'write only' permissions                */
 #define     __IO    volatile             /*!< Defines 'read / write' permissions              */
